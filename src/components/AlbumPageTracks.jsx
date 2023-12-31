@@ -26,7 +26,7 @@ const AlbumPageTracks = ({ tracks, albumImg }) => {
 			});
 	};
 	return (
-		<section id='track-list mb-10'>
+		<section id='track-list mb-32'>
 			<ul className='flex items-center justify-between font-normal text-white pb-5'>
 				<li>Title</li>
 				<li>Artist</li>
@@ -34,7 +34,7 @@ const AlbumPageTracks = ({ tracks, albumImg }) => {
 			</ul>
 
 			{tracks && tracks.length > 0 && (
-				<ul className='flex flex-col gap-4 text-sm font-normal capitalize'>
+				<ul className='flex flex-col gap-4 text-sm font-normal capitalize mb-48'>
 					{tracks.map((track, index) => (
 						<li
 							key={index}

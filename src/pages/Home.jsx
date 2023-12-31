@@ -11,6 +11,7 @@ const Home = () => {
 	const [albums, setAlbums] = useState([]);
 	const [topAllShow, setTopAllShow] = useState(false);
 	const [newAllShow, setNewAllShow] = useState(false);
+	const [tabAlbums, setTabAlbums] = useState([]);
 
 	const handleShowAll = (albumSection) => {
 		if (albumSection === 'top') {
@@ -18,6 +19,37 @@ const Home = () => {
 		} else {
 			setNewAllShow(!newAllShow);
 		}
+	};
+
+	const handleChangeCountry = async (countryCode) => {
+		fetch(
+			`https://api.spotify.com/v1/browse/new-releases?country=${countryCode}&limit=50`,
+			{
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem(
+						'spotify_access_token'
+					)}`,
+				},
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				if (data.error?.status === 401) {
+					localStorage.removeItem('spotify_access_token');
+					window.location.reload();
+				} else {
+					// setAlbums((prev) => [...data.albums.items]);
+					// updateAlbums(data.albums.items);
+					setTabAlbums((prev) => [...data.albums.items]);
+				}
+
+				// console.log(data.albums.items);
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
 	};
 
 	// const handleClickAuthorize = () => {
@@ -80,6 +112,7 @@ const Home = () => {
 					} else {
 						setAlbums((prev) => [...data.albums.items]);
 						updateAlbums(data.albums.items);
+						setTabAlbums((prev) => [...data.albums.items]);
 					}
 
 					// console.log(data.albums.items);
@@ -90,7 +123,6 @@ const Home = () => {
 		}
 	}, []);
 
-	// const handleChangeCountry = (country)
 	return (
 		<>
 			<HeroSection />
@@ -137,11 +169,11 @@ const Home = () => {
 						</button> */}
 					</div>
 					<div className='mb-3'>
-						<Tabs />
+						<Tabs onClickTab={handleChangeCountry} />
 					</div>
 					<Albums
-						albumsData={albums && albums.slice(-30)}
-						showAll={newAllShow}
+						albumsData={tabAlbums}
+						// showAll={newAllShow}
 					/>
 				</div>
 				<div className='mb-44'>

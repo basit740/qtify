@@ -37,19 +37,20 @@ const tabs = [
 		active: false,
 	},
 ];
-const Tabs = () => {
+const Tabs = ({ onClickTab }) => {
 	// State to keep track of the active tab
 	const [activeTab, setActiveTab] = useState(tabs[0].value);
 
-	const handleClick = (value) => {
-		setActiveTab(value);
+	const handleClick = (tab) => {
+		setActiveTab(tab.value);
+		onClickTab(tab.country);
 	};
 
 	return (
 		<ul className='flex items-center gap-7'>
 			{tabs.map((tab, index) => (
 				<Tab
-					onClick={() => handleClick(tab.value)}
+					onClick={() => handleClick(tab)}
 					key={index}
 					title={tab.title}
 					active={tab.value === activeTab} // Pass active state to Tab

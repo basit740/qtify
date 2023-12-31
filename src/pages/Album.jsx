@@ -42,7 +42,7 @@ const AlbumPage = () => {
 					></i>
 				</button>
 				<AlbumPageHero metaData={album} />
-				<div className='mb-16'></div>
+
 				{album && (
 					<AlbumPageTracks
 						albumImg={album.images[1].url}
